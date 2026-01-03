@@ -46,6 +46,14 @@ where
         }
     }
 
+    pub fn import(nodes: Vec<Node<P>>) -> Self {
+        let mut id_map = HashMap::new();
+        for (idx, node) in nodes.iter().enumerate() {
+            id_map.insert(node.hash.clone(), InternalId::from(idx as u32));
+        }
+        Self { nodes, id_map }
+    }
+
     pub fn add_node(
         mut self,
         payload: P,
