@@ -5,4 +5,5 @@ edition = "2024"
 
 [dependencies]
 rkyv = "0.8.12"
+rs_merkle = "1.5.0"
 tiny-keccak = { version = "2.0.2", features = ["keccak"] }
