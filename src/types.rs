@@ -1,31 +1,27 @@
-#[derive(Clone, Copy, PartialEq, Eq)]
-pub struct InternalId(u32);
-pub type KeccakHash = [u8; 32];
+use std::fmt::Display;
 
-impl From<u32> for InternalId {
-    fn from(id: u32) -> Self {
-        Self(id)
+// Keccak-256 Hash
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct KeccakHash([u8; 32]);
+
+impl Display for KeccakHash {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", hex::encode(self.0));
+        Ok(())
     }
 }
 
-impl TryFrom<usize> for InternalId {
-    type Error = <u32 as TryFrom<usize>>::Error;
-
-    fn try_from(id: usize) -> Result<Self, Self::Error> {
-        Ok(Self(id.try_into()?))
-    }
-}
-
+// DAG Error
 #[derive(Debug)]
 pub enum DagError {
     MissingDependency(KeccakHash),
 }
 
-impl std::fmt::Display for DagError {
+impl Display for DagError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             DagError::MissingDependency(hash) => {
-                write!(f, "Missing dependency with hash: {:x?}", hash)
+                write!(f, "Missing dependency with hash: 0x{}", hash)
             }
         }
     }
