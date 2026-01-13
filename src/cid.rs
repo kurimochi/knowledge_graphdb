@@ -11,7 +11,7 @@ pub trait CidTrait {
 }
 
 // CID v1
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Deserialize, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize)]
 pub struct CidV1(pub [u8; 32]);
 pub const CIDV1_PREFIX: [u8; 2] = [0x00, 0x01]; // CID v1 Prefix: 0x0001
 
