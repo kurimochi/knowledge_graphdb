@@ -1,5 +1,3 @@
-use std::fmt;
-
 use serde::{Deserialize, Serialize};
 
 pub enum CidVersion {
@@ -22,7 +20,7 @@ impl CidTrait for CidV1 {
         CidVersion::V1
     }
     fn to_vec(&self) -> Vec<u8> {
-        let mut result = Vec::with_capacity(self.0.len() + CIDV1_PREFIX.len());
+        let mut result = Vec::with_capacity(34);
         result.extend_from_slice(&CIDV1_PREFIX);
         result.extend_from_slice(&self.0);
         result
@@ -57,6 +55,26 @@ impl<'de> Deserialize<'de> for CidV1 {
 
         let mut arr = [0u8; 32];
         arr.copy_from_slice(&vec[2..34]);
+        Ok(CidV1(arr))
+    }
+}
+
+impl Into<String> for CidV1 {
+    fn into(self) -> String {
+        hex::encode(self.to_vec())
+    }
+}
+
+impl TryFrom<String> for CidV1 {
+    type Error = Box<dyn std::error::Error>;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        let decoded = hex::decode(value)?;
+        if &decoded[0..2] != &CIDV1_PREFIX {
+            return Err("Invalid CidV1 prefix".into());
+        }
+        let mut arr = [0u8; 32];
+        arr.copy_from_slice(&decoded[2..34]);
         Ok(CidV1(arr))
     }
 }
