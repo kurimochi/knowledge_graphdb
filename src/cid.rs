@@ -1,3 +1,5 @@
+use std::fmt;
+
 use serde::{Deserialize, Serialize};
 
 pub enum CidVersion {
@@ -76,5 +78,12 @@ impl TryFrom<String> for CidV1 {
         let mut arr = [0u8; 32];
         arr.copy_from_slice(&decoded[2..34]);
         Ok(CidV1(arr))
+    }
+}
+
+impl fmt::Display for CidV1 {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let cid_str: String = self.clone().into();
+        write!(f, "{}", cid_str)
     }
 }
