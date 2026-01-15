@@ -59,9 +59,9 @@ impl<'de> Deserialize<'de> for CidV1 {
     }
 }
 
-impl Into<String> for CidV1 {
-    fn into(self) -> String {
-        hex::encode(self.to_vec())
+impl From<CidV1> for String {
+    fn from(value: CidV1) -> Self {
+        hex::encode(value.to_vec())
     }
 }
 
