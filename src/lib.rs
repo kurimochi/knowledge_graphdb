@@ -1,5 +1,5 @@
 use core::error;
-use std::collections::BinaryHeap;
+use std::collections::{BinaryHeap, HashMap};
 
 use serde::{Deserialize, Serialize};
 use sha3::{Digest, Keccak256};
@@ -7,6 +7,8 @@ use sha3::{Digest, Keccak256};
 use crate::cid::{CidTrait, CidV1};
 
 pub mod cid;
+
+pub struct Dag<P, C: CidTrait>(pub HashMap<C, Node<P, C>>);
 
 pub struct Node<P, C>
 where
