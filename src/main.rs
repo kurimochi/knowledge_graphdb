@@ -9,8 +9,5 @@ fn main() {
         dependencies: BinaryHeap::new(),
     };
     let cid = nodecontent.generate_cid().unwrap();
-    let mut buffer = Vec::new();
-    ciborium::into_writer(&nodecontent, &mut buffer).unwrap();
-    println!("{}", hex::encode(buffer));
     println!("{}", cid);
 }
